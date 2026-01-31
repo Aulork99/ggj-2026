@@ -14,9 +14,9 @@
 Art/** filter=lfs diff=lfs merge=lfs binary 
 
 # The in game content is binary
-Projects/**/Content/** filter=lfs diff=lfs merge=lfs binary 
-Projects/**/DerivedDataCache/** filter=lfs diff=lfs merge=lfs binary
-Projects/**/Binaries/** filter=lfs diff=lfs merge=lfs binary 
+Content/** filter=lfs diff=lfs merge=lfs binary 
+DerivedDataCache/** filter=lfs diff=lfs merge=lfs binary
+Binaries/** filter=lfs diff=lfs merge=lfs binary 
 
 
 # UE file types
