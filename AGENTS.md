@@ -1,32 +1,43 @@
-# GGJ 2026 — Unmasked
+# Agent Guide — Unmasked
 
-## Project structure
+## Project facts
 
-- **UE 5.5**, Blueprint-only (no C++ source directory exists).
-- Project root: `unmasked/unmasked.uproject`.
-- All game logic is in Blueprints under `Content/`.
+- Unreal Engine **5.8** on the `upgrade/ue58` branch. `feature-dev` is the UE 5.5 checkpoint.
+- Blueprint-only project; there is no game C++ source directory.
+- Project file: `unmasked/unmasked.uproject`.
+- Default map: `/Game/FirstPerson/Maps/MainLevel`.
+- Game logic and content assets live under `unmasked/Content/`.
 
-## Key Blueprint areas
+## Main content areas
 
 | Directory | Contents |
 |-----------|----------|
-| `Content/FirstPerson/` | Character, weapon, game mode, input mappings, main level map |
-| `Content/Blueprints/` | Core mechanics: SoundGenerator, Repeater, Projectile, Time, End, MainMenu |
-| `Content/LevelPrototyping/` | Doors, buttons, moving platforms, audio, prototyping meshes/materials |
-
-## Starting the project
-
-Open in UE 5.5 Editor via `unmasked/unmasked.uproject`. Editor default map is `/Game/FirstPerson/Maps/MainLevel`. Add the `ModelingToolsEditorMode` plugin if prompted.
+| `Content/FirstPerson/` | Character, weapon, game mode, Enhanced Input assets, and main map |
+| `Content/Blueprints/` | SoundGenerator, Repeater, Projectile, Time, End, and MainMenu mechanics |
+| `Content/LevelPrototyping/` | Doors, buttons, moving platforms, audio, and prototype assets |
 
 ## Input system
 
-Uses **Enhanced Input** (`/Script/EnhancedInput.EnhancedPlayerInput`). Input Action and Mapping Context assets live in `Content/FirstPerson/Input/`.
+- Uses **Enhanced Input** (`/Script/EnhancedInput.EnhancedPlayerInput`).
+- Input Actions and Mapping Contexts are under `Content/FirstPerson/Input/`.
+- Current contexts are `IMC_Movement` and `IMC_Shooting`; shooting actions include `IA_Shoot` and `IA_Reload`.
+- Avoid restoring the removed `IMC_Default` / `IMC_Weapons` assets unless intentionally changing the input design.
 
-## Asset tracking
+## Opening and validating
 
-- `.uasset` / `.umap` files are tracked with **Git LFS** (see `.gitattributes`).
-- `Saved/`, `Intermediate/`, `DerivedDataCache/`, `Build/`, `Binaries/` are gitignored.
+- Open `unmasked/unmasked.uproject` with UE 5.8. Keep the UE 5.5 `feature-dev` branch as the rollback point; do not save upgraded assets from UE 5.8 back into that branch.
+- `ModelingToolsEditorMode`, `ModelContextProtocol`, and `AllToolsets` are enabled in the project.
+- There is no CI or automated game-test suite. Compile affected Blueprints and test behavior with Play In Editor, especially movement, weapon attachment/fire, projectile behavior, sound generation/repeaters, doors, and end/menu flow.
 
-## No build/test system
+## Unreal MCP
 
-No package.json, no CI config, no tests. Iterate in-editor (Play In Editor).
+- The optional, experimental Unreal MCP server is local to the editor and serves `http://127.0.0.1:8000/mcp`.
+- Auto-start is an editor-user preference, not a project asset. If disabled, start it from the editor console with `ModelContextProtocol.StartServer 8000`.
+- MCP toolsets can modify assets. Use read-only inspection for analysis; only call mutating tools when the user explicitly requests edits.
+- Do not expose the local MCP server beyond loopback; it has no authentication layer.
+
+## Version control and assets
+
+- `.uasset` and `.umap` files are tracked with **Git LFS** via the repository-root `.gitattributes`.
+- The repository-root `.gitignore` scopes Unreal-generated files to `unmasked/`, including `Saved/`, `Intermediate/`, `DerivedDataCache/`, `Build/`, and `Binaries/`.
+- Avoid bulk resaves or engine-version conversions without a clean branch and a recoverable LFS baseline.
