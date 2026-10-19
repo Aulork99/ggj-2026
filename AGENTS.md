@@ -2,7 +2,7 @@
 
 ## Project facts
 
-- Unreal Engine **5.8** on the `upgrade/ue58` branch. `feature-dev` is the UE 5.5 checkpoint.
+- Unreal Engine **5.8** on the active `feature-dev` gameplay branch. `upgrade/ue58` is a separate upgrade branch; `feature-dev` is no longer the UE 5.5 checkpoint.
 - Blueprint-only project; there is no game C++ source directory.
 - Project file: `unmasked/unmasked.uproject`.
 - Default map: `/Game/FirstPerson/Maps/MainLevel`.
@@ -25,7 +25,7 @@
 
 ## Opening and validating
 
-- Open `unmasked/unmasked.uproject` with UE 5.8. Keep the UE 5.5 `feature-dev` branch as the rollback point; do not save upgraded assets from UE 5.8 back into that branch.
+- Open `unmasked/unmasked.uproject` with UE 5.8. Keep an independent rollback baseline before bulk asset resaves; do not save UE 5.8 assets into an older-engine branch.
 - `ModelingToolsEditorMode`, `ModelContextProtocol`, and `AllToolsets` are enabled in the project.
 - There is no CI or automated game-test suite. Compile affected Blueprints and test behavior with Play In Editor, especially movement, weapon attachment/fire, projectile behavior, sound generation/repeaters, doors, and end/menu flow.
 

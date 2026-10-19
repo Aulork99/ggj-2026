@@ -6,15 +6,15 @@ repeaters, timed sequences, doors/buttons, and menu/end-game flow.
 
 ## Engine and project
 
-- Current upgrade branch: **Unreal Engine 5.8** (`upgrade/ue58`).
-- UE 5.5 checkpoint: `feature-dev`.
+- Current gameplay branch: `feature-dev`, targeting **Unreal Engine 5.8**.
+- `upgrade/ue58` is retained as a separate upgrade branch; `feature-dev` is no
+  longer the UE 5.5 checkpoint.
 - Project file: `unmasked/unmasked.uproject`.
 - Main map: `/Game/FirstPerson/Maps/MainLevel`.
 - Game logic and assets are under `unmasked/Content/`.
 
-Open the project with UE 5.8. Keep the UE 5.5 checkpoint available until the
-upgrade branch has been validated; saving assets in 5.8 may make them
-incompatible with 5.5.
+Open the project with UE 5.8. Keep an independent rollback baseline before
+bulk-resaving assets; UE 5.8 assets may not be compatible with UE 5.5.
 
 ## Enhanced Input
 
@@ -39,6 +39,11 @@ Model Context Protocol → Auto Start Server**. The endpoint is loopback-only an
 has no authentication; do not expose it to other machines.
 
 ## Assets and testing
+
+- **Required audio replacements:** `sfx_ball_impact_2` and `sfx_ball_impact_3`
+  are temporary placeholders for footsteps and jump landings. Replace them
+  with dedicated footstep and landing SoundWaves, then update the references in
+  `BP_FirstPersonCharacter`.
 
 - Unreal `.uasset` / `.umap` files use Git LFS (see the repository-root
   `.gitattributes`).
